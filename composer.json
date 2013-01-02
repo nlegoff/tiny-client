@@ -3,7 +3,8 @@
     "description": "A tiny client to shrink tiny png",
     "require": {
         "guzzle/guzzle": "3.0.7",
-        "symfony/console": "2.1.5"
+        "symfony/console": "2.1.x",
+        "symfony/yaml": "2.1.x"
     },
     "authors": [
         {

@@ -1,42 +1,35 @@
 <?php
+namespace Tiny;
 
 use Guzzle\Http\Client as  GuzzleHttpClient;
-use Guzzle\Common\Exception\ExceptionCollection;
 use Guzzle\Http\EntityBody;
 
 class Client extends GuzzleHttpClient
 {
-    public function _construct()
+    public $baseUrl = 'http://api.tinypng.org';
+
+    public function __construct()
     {
-        parent::__construct($baseUrl = 'http://tinypng.org/api');
+        parent::__construct($this->baseUrl);
     }
-    
-    public function shrink(\SplFileInfo $image, $to)
+
+    private function shrinkImageHttpRequest(\SplFileInfo $image)
     {
-        $body = EntityBody::factory(fopen($image->getRealPath(), 'r'));
-        $body->compress();
-        
-        $data = $this->post('/shrink', null, $body)->send()->json();
-        
-        if (isset($data['code'])) {
-            throw new Exception("#{$data['code']}: #{$data['message']}");
-        } else {
-            
-            file_put_contents($file, $current);
+        return $this->post('/api/shrink', null, EntityBody::factory(fopen($image->getRealPath(), 'r')));
+    }
+
+    public function shrink($images)
+    {
+        if (!is_array($images) && !$images instanceof \Traversable) {
+            throw new \InvalidArgumentException();
         }
-    }
-    
-    public function shrinkMulti(array $images)
-    {
+        
         $requests = array();
-        
-        foreach($images as $image) {
-            $body = EntityBody::factory(fopen($image->getRealPath(), 'r'));
-            $body->compress();
-        
-            $requests[] = $this->post('/shrink', null, $body);
+
+        foreach ($images as $key => $image) {
+            $requests[$key] = $this->shrinkImageHttpRequest($image);
         }
-        
-        $responses = $this->send($requests);
+
+        return $this->send($requests);
     }
 }

@@ -1,3 +1,28 @@
 #!/usr/bin/env php
 <?php
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Tiny\Client;
+use Tiny\Command\Shrink;
+use Tiny\Command\Config;
+use Symfony\Component\Console\Application;
+
+$app = new Application('
+░░░░░░░░▄██▄░░░░░░▄▄░░ A Tiny PNG API client
+░░░░░░░▐███▀░░░░░▄███▌
+░░▄▀░░▄█▀▀░░░░░░░░▀██░ Tiny PNG provides an advanced lossy compression for PNG
+░█░░░██░░░░░░░░░░░░░░░ images that preserves full alpha transparency.
+█▌░░▐██░░▄██▌░░▄▄▄░░░▄
+██░░▐██▄░▀█▀░░░▀██░░▐▌ For more information, visit http://tinypng.org/
+██▄░▐███▄▄░░▄▄▄░▀▀░▄██
+▐███▄██████▄░▀░▄█████▌
+▐████████████▀▀██████░
+░▐████▀██████░░█████░░
+░░░▀▀▀░░█████▌░████▀░░
+░░░░░░░░░▀▀███░▀▀▀░░░░', '0.1');
+
+$app->add(new Config('config:edit-key'));
+$app->add(new Shrink('client:shrink', new Client()));
+
+$app->run();
