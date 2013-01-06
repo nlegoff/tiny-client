@@ -10,7 +10,7 @@ use Tiny\Command\Code;
 
 class Config extends SymfoCommand
 {
-    protected $apiKey;
+    protected $apiKey = 'YOUR_API_KEY';
     
     protected function configure()
     {
@@ -24,11 +24,13 @@ class Config extends SymfoCommand
         
         $dialog = $this->getHelperSet()->get('dialog');
         
-        $this->apiKey = $dialog->ask(
-            $output,
-            '<question>Please enter your tinypng API KEY</question>',
-            'YOUR_API_KEY'
-        );
+        if ($input->isInteractive()) {
+            $this->apiKey = $dialog->ask(
+                $output,
+                '<question>Please enter your tinypng API KEY</question>',
+                $this->apiKey
+            );
+        }
         
         try {
             if (!file_exists($confFile) && false === @copy($sampleConfFile, $confFile)) {

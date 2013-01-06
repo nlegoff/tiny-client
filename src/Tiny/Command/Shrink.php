@@ -2,6 +2,7 @@
 namespace Tiny\Command;
 
 use Guzzle\Common\Exception\ExceptionCollection;
+use Guzzle\Common\Event;
 use Guzzle\Plugin\CurlAuth\CurlAuthPlugin;
 use Symfony\Component\Console\Command\Command as SymfoCommand;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -66,7 +67,9 @@ class Shrink extends SymfoCommand
             $command = $this->getApplication()->find('config:edit-key');
 
             $subInput = new ArrayInput(array('command' => 'config:edit-key'));
-                    
+              
+            $subInput->setInteractive($input->isInteractive());
+            
             if (Code::EXIT_FAILURE === $command->run($subInput, $output)) {
                 
                 return Code::EXIT_FAILURE;
@@ -75,9 +78,10 @@ class Shrink extends SymfoCommand
             $this->client->addSubscriber(new CurlAuthPlugin($command->getApiKey(), ''));
         }
         
-        if ($input->getOption('no-prefix')) {
-            $this->shrinkPrefix = '';
-        }
+        $this->client->getEventDispatcher()->addListener('request.error', function(Event $event) {
+            // override guzzle default behavior of throwing exceptions when 4xx & 5xx responses are encountered
+            $event->stopPropagation();
+        }, -254);
         
         $this->outputDirectory = $input->getOption('output-dir');
         
@@ -107,9 +111,7 @@ class Shrink extends SymfoCommand
             return Code::EXIT_SUCCESS;
         }
         
-        if ($countImage > 1) {
-            $input->setInteractive(false);
-        }
+        $responses = array();
         
         try {
             $responses = $this->client->shrink($shrinkBag);
@@ -143,7 +145,7 @@ class Shrink extends SymfoCommand
                      "<error>Tiny PNG could not shrink the current image."
                       . " Reason is #{$data['code']}: #{$data['message']}</error>"
                  );
-
+                      
                  continue;
             }
              
@@ -155,7 +157,15 @@ class Shrink extends SymfoCommand
                 }
                 
                 $imageFileInfo = new \SplFileInfo($this->getOutputImagePathName($toShrink));
+                
+                $shrinkedImageResponse = $this->client
+                    ->get($data['output']['url'])
+                    ->send();
 
+                if (!$shrinkedImageResponse->isSuccessful()) {
+                    throw new \Exception();
+                }
+                
                 try {
                     $image = $imageFileInfo->openFile('w');
                 } catch (\RuntimeException $e) {
@@ -165,10 +175,6 @@ class Shrink extends SymfoCommand
                     ), $e->getCode(), $e);
                 }
                 
-                $shrinkedImageResponse = $this->client
-                    ->get($data['output']['url'])
-                    ->send();
-
                 $shrinkedImageResponse->getBody()->seek(0);
 
                 $image->fwrite($shrinkedImageResponse->getBody());
@@ -177,7 +183,7 @@ class Shrink extends SymfoCommand
                 $output->writeln(sprintf(
                     "<comment>The image %s could not be rapatriated"
                     . " on the local machine</comment>",
-                    $filename
+                    $imageFileInfo->getBasename()
                 ));
 
                 $output->writeln(sprintf(
@@ -221,11 +227,6 @@ class Shrink extends SymfoCommand
             $this->shrinkPrefix,
             $basename ?: $file->getBasename()
         );
-    }
-    
-    public function getConfigurationFilePath()
-    {
-        return $this->configurationFilePath;
     }
     
     public function setConfigurationFilePath($filePath)

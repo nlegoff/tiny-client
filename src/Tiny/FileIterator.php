@@ -46,17 +46,11 @@ class FileIterator extends \FilterIterator implements \Countable
         
         if ($accept) {
             $this->bag[$filename] = $file;
-        } else if (isset($this->bag[$filename])) {
-            unset($this->bag[$filename]);
         }
         
         return $accept;
     }
     
-    public function setAcceptCallback(\Closure $callback = null) {
-        $this->callback = $callback;
-    }
-     
     public function count()
     {
        return count($this->bag);
@@ -83,10 +77,5 @@ class FileIterator extends \FilterIterator implements \Countable
             -1,
             PREG_SPLIT_NO_EMPTY
         )))) === 0;
-    }
-    
-    private function hasPngExtension(\SplFileInfo $image)
-    {
-        return 'png' === pathinfo($image->getBasename(), PATHINFO_EXTENSION);
     }
 }

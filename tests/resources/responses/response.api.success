@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "input": {
+    "size": 207565
+  },
+  "output": {
+    "depth": 8,
+    "size": 63669,
+    "ratio": 0.307,
+    "url": "http://api.tinypng.org/api/shrink/out/toab3elfoadgjut7.png"
+  }
+}
