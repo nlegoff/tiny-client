@@ -11,13 +11,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use Tiny\Client;
+use Tiny\Command\Code;
 use Tiny\FileIterator;
 
 class Shrink extends SymfoCommand
 {
-    const EXIT_FAIL = 1;
-    const EXIT_SUCCESS = 0;
-
     protected $shrinkPrefix = 'shrinked.';
     protected $outputDirectory;
     protected $client;
@@ -41,25 +39,20 @@ class Shrink extends SymfoCommand
                 'Who do you want to shrink?'
             )
             ->addOption(
-               'output-dir',
-               null,
-               InputOption::VALUE_REQUIRED,
-               'Where do you want the shrinked images to go ?'
+                'output-dir',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Where do you want the shrinked images to go ?'
             )->addOption(
-               'no-prefix',
-               null,
-               InputOption::VALUE_NONE,
-               'Do not prefix images'
+                'override',
+                null,
+                InputOption::VALUE_NONE,
+                'Override existing images'
             )->addOption(
-               'override',
-               null,
-               InputOption::VALUE_NONE,
-               'Override existing images'
-            )->addOption(
-               'no-recursive',
-               null,
-               InputOption::VALUE_NONE,
-               'Do not recurse into directories'
+                'no-recursive',
+                null,
+                InputOption::VALUE_NONE,
+                'Do not recurse into directories'
             );
 
         return $this;
@@ -74,9 +67,9 @@ class Shrink extends SymfoCommand
 
             $subInput = new ArrayInput(array('command' => 'config:edit-key'));
                     
-            if (self::EXIT_FAIL === $command->run($subInput, $output)) {
+            if (Code::EXIT_FAILURE === $command->run($subInput, $output)) {
                 
-                return self::EXIT_FAIL;
+                return Code::EXIT_FAILURE;
             }
             
             $this->client->addSubscriber(new CurlAuthPlugin($command->getApiKey(), ''));
@@ -111,7 +104,7 @@ class Shrink extends SymfoCommand
         if (0 === $countImage = count($shrinkBag)) {
             $output->writeln("<comment>No image are eligible for being shrunk</comment>");
 
-            return self::EXIT_SUCCESS;
+            return Code::EXIT_SUCCESS;
         }
         
         if ($countImage > 1) {
@@ -137,7 +130,7 @@ class Shrink extends SymfoCommand
                 . "#No picture(s) could be sent to tinypng service</comment>"
             );
 
-            return self::EXIT_FAIL;
+            return Code::EXIT_FAILURE;
         }
         
         $processed = 0;
@@ -209,10 +202,10 @@ class Shrink extends SymfoCommand
         
         if (0 !== $processed) {
             
-            return self::EXIT_SUCCESS;
+            return Code::EXIT_SUCCESS;
         }
         
-        return self::EXIT_FAIL;
+        return Code::EXIT_FAILURE;
     }
     
     public function getShrinkPrefix()

@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command as SymfoCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
+use Tiny\Command\Code;
 
 class Config extends SymfoCommand
 {
@@ -46,12 +47,12 @@ class Config extends SymfoCommand
                 $e->getMessage()
             ));
             
-            return 1;
+            return Code::EXIT_FAILURE;
         }
         
         $output->writeln("<info>Your api key has been successfully saved</info>");
         
-        return 0;
+        return Code::EXIT_SUCCESS;
     }
     
     public function getApiKey() 
