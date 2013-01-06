@@ -1,12 +1,15 @@
 PHP-TINYPNG-API
 ===============
 
-This command line tool client allows you to shrink your png files using the 
+This PHP command line tool allows you to shrink your png files using the 
 tinypng service.
 
-See (http://tinypng.org/) for more informations
+See (http://tinypng.org/) for more informations.
 
-It requires at least PHP 5.3 to run
+:warning: 
+
+
+*It requires at least PHP 5.3 to run*
 
 Installation
 ============
@@ -36,7 +39,7 @@ Options:
 
 ``` 
 
-All shrinked images will be prefixed by **shrinked.**
+All shrinked images will be prefixed by this string **shrinked.**
 
 Unit testing
 ============
