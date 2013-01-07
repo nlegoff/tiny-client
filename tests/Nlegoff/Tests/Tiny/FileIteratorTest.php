@@ -1,5 +1,7 @@
 <?php
 
+namespace Nlegoff\Tests\Tiny;
+
 use Nlegoff\Tiny\FileIterator;
 
 class FileIteratorTest extends \PHPUnit_Framework_TestCase

@@ -1,5 +1,7 @@
 <?php
 
+namespace Nlegoff\Tests\Tiny\Command;
+
 use Guzzle\Http\Exception\CurlException;
 use Guzzle\Plugin\Mock\MockPlugin;
 use Nlegoff\Tiny\Command\Shrink;
