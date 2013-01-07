@@ -1,6 +1,6 @@
 <?php
 
-use Tiny\Client;
+use Nlegoff\Tiny\Client;
 use Guzzle\Plugin\Mock\MockPlugin;
 use Guzzle\Http\Message\Response;
 

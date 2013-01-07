@@ -2,11 +2,11 @@
 
 use Guzzle\Http\Exception\CurlException;
 use Guzzle\Plugin\Mock\MockPlugin;
+use Nlegoff\Tiny\Command\Shrink;
+use Nlegoff\Tiny\Command\Config;
+use Nlegoff\Tiny\Client;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Console\Application;
-use Tiny\Command\Shrink;
-use Tiny\Command\Config;
-use Tiny\Client;
 
 class ShrinkTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,23 +21,23 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
 
         $responses = array(
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.api.success'),
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.image.back')
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.api.success'),
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.image.back')
         );
 
         $application->add(new Shrink('client:shrink', $this->getMockedClient($responses)));
 
         $command = $application->find('client:shrink');
         /* @var $command Shrink */
-        $command->setConfigurationFilePath(__DIR__ . '/../../../resources/configurations/api.key.conf.yml');
+        $command->setConfigurationFilePath(__DIR__ . '/../../../../resources/configurations/api.key.conf.yml');
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'   => $command->getName(),
-            'file'      => __DIR__ . '/../../../resources/image'
+            'file'      => __DIR__ . '/../../../../resources/image'
         ));
 
-        $testFile = new \SplFileInfo(__DIR__ . '/../../../resources/image/troll.png');
+        $testFile = new \SplFileInfo(__DIR__ . '/../../../../resources/image/troll.png');
         $shrinkedTestFile = new \SplFileInfo($command->getOutputImagePathName($testFile));
 
         $this->assertTrue($shrinkedTestFile->isFile());
@@ -57,24 +57,24 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
 
         $responses = array(
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.api.success'),
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.image.back')
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.api.success'),
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.image.back')
         );
 
         $application->add(new Shrink('client:shrink', $this->getMockedClient($responses)));
 
         $command = $application->find('client:shrink');
         /* @var $command Shrink */
-        $command->setConfigurationFilePath(__DIR__ . '/../../../resources/configurations/api.key.conf.yml');
+        $command->setConfigurationFilePath(__DIR__ . '/../../../../resources/configurations/api.key.conf.yml');
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'   => $command->getName(),
-            'file'      => __DIR__ . '/../../../resources/image',
+            'file'      => __DIR__ . '/../../../../resources/image',
             '--override'  => true
         ));
 
-        $testFile = new \SplFileInfo(__DIR__ . '/../../../resources/image/troll.png');
+        $testFile = new \SplFileInfo(__DIR__ . '/../../../../resources/image/troll.png');
         $shrinkedTestFile = new \SplFileInfo($command->getOutputImagePathName($testFile));
 
         $this->assertTrue($shrinkedTestFile->isFile());
@@ -94,20 +94,20 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
 
         $responses = array(
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.api.success'),
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.image.back.failed')
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.api.success'),
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.image.back.failed')
         );
 
         $application->add(new Shrink('client:shrink', $this->getMockedClient($responses)));
 
         $command = $application->find('client:shrink');
         /* @var $command Shrink */
-        $command->setConfigurationFilePath(__DIR__ . '/../../../resources/configurations/api.key.conf.yml');
+        $command->setConfigurationFilePath(__DIR__ . '/../../../../resources/configurations/api.key.conf.yml');
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'   => $command->getName(),
-            'file'      => __DIR__ . '/../../../resources/image'
+            'file'      => __DIR__ . '/../../../../resources/image'
         ));
 
         $this->assertRegExp('/could not be rapatriated on the local machine/', $commandTester->getDisplay());
@@ -124,20 +124,20 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
 
         $responses = array(
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.api.failed'),
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.image.back')
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.api.failed'),
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.image.back')
         );
 
         $application->add(new Shrink('client:shrink', $this->getMockedClient($responses)));
 
         $command = $application->find('client:shrink');
         /* @var $command Shrink */
-        $command->setConfigurationFilePath(__DIR__ . '/../../../resources/configurations/api.key.conf.yml');
+        $command->setConfigurationFilePath(__DIR__ . '/../../../../resources/configurations/api.key.conf.yml');
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'   => $command->getName(),
-            'file'      => __DIR__ . '/../../../resources/image'
+            'file'      => __DIR__ . '/../../../../resources/image'
         ));
 
         $this->assertRegExp('/Tiny PNG could not shrink the current image/', $commandTester->getDisplay());
@@ -154,20 +154,20 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
 
         $responses = array(
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.api.success'),
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.image.back')
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.api.success'),
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.image.back')
         );
 
         $application->add(new Shrink('client:shrink', $this->getMockedClient($responses)));
 
         $command = $application->find('client:shrink');
         /* @var $command Shrink */
-        $command->setConfigurationFilePath(__DIR__ . '/../../../resources/configurations/api.key.conf.yml');
+        $command->setConfigurationFilePath(__DIR__ . '/../../../../resources/configurations/api.key.conf.yml');
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'   => $command->getName(),
-            'file'      => __DIR__ . '/../../../resources/image_already_shrinked'
+            'file'      => __DIR__ . '/../../../../resources/image_already_shrinked'
         ));
 
         $this->assertRegExp('/No image are eligible for being shrunk/', $commandTester->getDisplay());
@@ -184,8 +184,8 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
 
         $responses = array(
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.api.success'),
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.image.back')
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.api.success'),
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.image.back')
         );
 
         $client = $this->getMockedClient($responses);
@@ -198,12 +198,12 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
 
         $command = $application->find('client:shrink');
         /* @var $command Shrink */
-        $command->setConfigurationFilePath(__DIR__ . '/../../../resources/configurations/api.key.conf.yml');
+        $command->setConfigurationFilePath(__DIR__ . '/../../../../resources/configurations/api.key.conf.yml');
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'   => $command->getName(),
-            'file'      => __DIR__ . '/../../../resources/image'
+            'file'      => __DIR__ . '/../../../../resources/image'
         ));
 
         $this->assertRegExp('/Connection timed out/', $commandTester->getDisplay());
@@ -221,8 +221,8 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
 
         $responses = array(
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.api.success'),
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.image.back')
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.api.success'),
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.image.back')
         );
 
         $client = $this->getMockedClient($responses);
@@ -232,17 +232,17 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
 
         $command = $application->find('client:shrink');
         /* @var $command Shrink */
-        $command->setConfigurationFilePath(__DIR__ . '/../../../resources/configurations/api.key.conf.bad.key.yml');
+        $command->setConfigurationFilePath(__DIR__ . '/../../../../resources/configurations/api.key.conf.bad.key.yml');
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'   => $command->getName(),
-            'file'      => __DIR__ . '/../../../resources/image'
+            'file'      => __DIR__ . '/../../../../resources/image'
         ), array(
             'interactive'   => false
         ));
 
-        $testFile = new \SplFileInfo(__DIR__ . '/../../../resources/image/troll.png');
+        $testFile = new \SplFileInfo(__DIR__ . '/../../../../resources/image/troll.png');
         $shrinkedTestFile = new \SplFileInfo($command->getOutputImagePathName($testFile));
 
         $this->assertTrue($shrinkedTestFile->isFile());
@@ -264,8 +264,8 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
 
         $responses = array(
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.api.success'),
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.image.back')
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.api.success'),
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.image.back')
         );
 
         $client = $this->getMockedClient($responses);
@@ -275,17 +275,17 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
 
         $command = $application->find('client:shrink');
         /* @var $command Shrink */
-        $command->setConfigurationFilePath(__DIR__ . '/../../../resources/configurations/api.key.conf.bad.parsable.yml');
+        $command->setConfigurationFilePath(__DIR__ . '/../../../../resources/configurations/api.key.conf.bad.parsable.yml');
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'   => $command->getName(),
-            'file'      => __DIR__ . '/../../../resources/image'
+            'file'      => __DIR__ . '/../../../../resources/image'
         ), array(
             'interactive'   => false
         ));
 
-        $testFile = new \SplFileInfo(__DIR__ . '/../../../resources/image/troll.png');
+        $testFile = new \SplFileInfo(__DIR__ . '/../../../../resources/image/troll.png');
         $shrinkedTestFile = new \SplFileInfo($command->getOutputImagePathName($testFile));
 
         $this->assertTrue($shrinkedTestFile->isFile());
@@ -306,8 +306,8 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $application = new Application();
 
         $responses = array(
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.api.success'),
-            MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.image.back')
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.api.success'),
+            MockPlugin::getMockFile(__DIR__ . '/../../../../resources/responses/response.image.back')
         );
 
         $client = $this->getMockedClient($responses);
@@ -317,17 +317,17 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
 
         $command = $application->find('client:shrink');
         /* @var $command Shrink */
-        $command->setConfigurationFilePath(__DIR__ . '/../../../resources/configurations/api.key.conf.not.exists.yml');
+        $command->setConfigurationFilePath(__DIR__ . '/../../../../resources/configurations/api.key.conf.not.exists.yml');
 
         $commandTester = new CommandTester($command);
         $commandTester->execute(array(
             'command'   => $command->getName(),
-            'file'      => __DIR__ . '/../../../resources/image'
+            'file'      => __DIR__ . '/../../../../resources/image'
         ), array(
             'interactive'   => false
         ));
 
-        $testFile = new \SplFileInfo(__DIR__ . '/../../../resources/image/troll.png');
+        $testFile = new \SplFileInfo(__DIR__ . '/../../../../resources/image/troll.png');
         $shrinkedTestFile = new \SplFileInfo($command->getOutputImagePathName($testFile));
 
         $this->assertTrue($shrinkedTestFile->isFile());

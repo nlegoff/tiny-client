@@ -1,6 +1,6 @@
 <?php
 
-use Tiny\FileIterator;
+use Nlegoff\Tiny\FileIterator;
 
 class FileIteratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +11,7 @@ class FileIteratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testRecursive()
     {
-        $files = new FileIterator(__DIR__ . '/../../resources/image_recursive');
+        $files = new FileIterator(__DIR__ . '/../../../resources/image_recursive');
 
         $this->assertEquals(2, count($files));
 
@@ -24,7 +24,7 @@ class FileIteratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testNoRecursive()
     {
-        $files = new FileIterator(__DIR__ . '/../../resources/image_recursive', null, false);
+        $files = new FileIterator(__DIR__ . '/../../../resources/image_recursive', null, false);
 
         $this->assertEquals(1, count($files));
 
@@ -36,7 +36,7 @@ class FileIteratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testWithCallback()
     {
-        $files = new FileIterator(__DIR__ . '/../../resources/image_recursive', function($file) {
+        $files = new FileIterator(__DIR__ . '/../../../resources/image_recursive', function($file) {
             return $file->getBasename() !== 'troll.png';
         }, false);
 

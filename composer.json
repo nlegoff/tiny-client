@@ -14,6 +14,6 @@
     ],
     "minimum-stability": "dev",
     "autoload": {
-        "psr-0": { "Tiny": "src/" }
+        "psr-0": { "Nlegoff": "src/" }
     }
 }
