@@ -15,7 +15,7 @@ use Tiny\Command\Code;
 class Config extends SymfoCommand
 {
     protected $apiKey = 'YOUR_API_KEY';
-    
+
     /**
      * @inheritdoc
      */
@@ -23,7 +23,7 @@ class Config extends SymfoCommand
     {
         $this->setDescription("Edit your tinypng api key");
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -31,9 +31,9 @@ class Config extends SymfoCommand
     {
         $sampleConfFile = __DIR__ . '/../../../config/api.key.conf.sample.yml';
         $confFile = __DIR__ . '/../../../config/api.key.conf.yml';
-        
+
         $dialog = $this->getHelperSet()->get('dialog');
-        
+
         if ($input->isInteractive()) {
             $this->apiKey = $dialog->ask(
                 $output,
@@ -41,14 +41,14 @@ class Config extends SymfoCommand
                 $this->apiKey
             );
         }
-        
+
         try {
             if (!file_exists($confFile) && false === @copy($sampleConfFile, $confFile)) {
                 throw new \Exception('Error wile copying the configuration file');
             }
-        
+
             $config = Yaml::parse($confFile);
-        
+
             $config['api_key'] = $this->apiKey;
 
             file_put_contents($confFile, Yaml::dump($config));
@@ -58,21 +58,21 @@ class Config extends SymfoCommand
                 . " Reason is #%s</error>",
                 $e->getMessage()
             ));
-            
+
             return Code::EXIT_FAILURE;
         }
-        
+
         $output->writeln("<info>Your api key has been successfully saved</info>");
-        
+
         return Code::EXIT_SUCCESS;
     }
-    
+
     /**
      * Gets the api key
-     * 
-     * @return  STRING
+     *
+     * @return STRING
      */
-    public function getApiKey() 
+    public function getApiKey()
     {
         return $this->apiKey;
     }

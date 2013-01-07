@@ -13,7 +13,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         return new client();
     }
-    
+
     /**
      * @depends testNewClient
      * @expectedException InvalidArgumentException
@@ -23,7 +23,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $client->shrink('an image');
     }
-    
+
     /**
      * @covers Tiny\Client::shrink
      */
@@ -31,12 +31,12 @@ class ClientTest extends \PHPUnit_Framework_TestCase
     {
         $returnValue = new Response('hellow');
         $plugin = new MockPlugin(array($returnValue));
-        
+
         $client = new Client();
         $client->addSubscriber($plugin);
-        
+
         $responses = $client->shrink(array(new \SplFileInfo(__FILE__)));
-        
+
         $this->assertTrue(is_array($responses));
         $this->assertEquals($returnValue, end($responses));
     }

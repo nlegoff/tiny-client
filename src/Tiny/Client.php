@@ -1,7 +1,6 @@
 <?php
 namespace Tiny;
 
-
 use Guzzle\Common\Exception\ExceptionCollection;
 use Guzzle\Http\Client as  GuzzleHttpClient;
 use Guzzle\Http\EntityBody;
@@ -24,19 +23,19 @@ class Client extends GuzzleHttpClient
 
     /**
      * To shrink a PNG image, post the data to the tinypng API shrink endpoint
-     * 
-     * @param   array|\Traversable  $images An array or a \Traversable object of \SplFileInfo objects
-     * @return  array   An array of Guzzle\Http\Message\Response objects
-     * 
-     * @throws  \InvalidArgumentException   In case the provided argument is neither an array or an iterator
-     * @throws  ExceptionCollection         In case at lest one request failed, this will not cause the entire pool of requests to fail
+     *
+     * @param  array|\Traversable $images An array or a \Traversable object of \SplFileInfo objects
+     * @return array              An array of Guzzle\Http\Message\Response objects
+     *
+     * @throws \InvalidArgumentException In case the provided argument is neither an array or an iterator
+     * @throws ExceptionCollection       In case at lest one request failed, this will not cause the entire pool of requests to fail
      */
     public function shrink($images)
     {
         if (!is_array($images) && !$images instanceof \Traversable) {
             throw new \InvalidArgumentException();
         }
-        
+
         $requests = array();
 
         foreach ($images as $key => $image) {
@@ -45,12 +44,12 @@ class Client extends GuzzleHttpClient
 
         return $this->send($requests);
     }
-    
+
     /**
      * Forge a POST Request object for the provided file
-     * 
-     * @param   \SplFileInfo $image An \SplFileInfo object
-     * @return  Request
+     *
+     * @param  \SplFileInfo $image An \SplFileInfo object
+     * @return Request
      */
     private function shrinkImageHttpRequest(\SplFileInfo $image)
     {
