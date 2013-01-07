@@ -72,6 +72,12 @@ class FileIterator extends \FilterIterator implements \Countable
        return count($this->bag);
     }
 
+    /**
+     * Finds a file by it's name inside the iterator
+     * 
+     * @param   string  $filename   A pathname to a file
+     * @return  null|\SplFIleInfo
+     */
     public function findFileByName($filename)
     {
         return isset($this->bag[md5($filename)]) ? $this->bag[md5($filename)] : null;
