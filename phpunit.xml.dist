@@ -16,14 +16,13 @@
     </php>
 
     <testsuites>
-        <testsuite name="Zippy Tests Suite">
+        <testsuite name="tinypng client tests suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
     <filter>
       <blacklist>
         <directory>vendor</directory>
-        <directory>tests</directory>
       </blacklist>
     </filter>
 
