@@ -2,9 +2,9 @@
     "name": "nlegoff/tiny-client",
     "description": "A tiny client to shrink tiny png",
     "require": {
-        "guzzle/guzzle": "3.0.7",
-        "symfony/console": "2.1.x",
-        "symfony/yaml": "2.1.x"
+        "guzzle/guzzle": "3.0.*",
+        "symfony/console": ">=2.0, <=2.2.x-dev",
+        "symfony/yaml": ">=2.0, <=2.2.x-dev"
     },
     "authors": [
         {
