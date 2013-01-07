@@ -1,9 +1,12 @@
 <?php
-namespace Tiny\Command;
+namespace Nlegoff\Tiny\Command;
 
 use Guzzle\Common\Exception\ExceptionCollection;
 use Guzzle\Common\Event;
 use Guzzle\Plugin\CurlAuth\CurlAuthPlugin;
+use Nlegoff\Tiny\Client;
+use Nlegoff\Tiny\Command\Code;
+use Nlegoff\Tiny\FileIterator;
 use Symfony\Component\Console\Command\Command as SymfoCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
@@ -11,9 +14,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
-use Tiny\Client;
-use Tiny\Command\Code;
-use Tiny\FileIterator;
 
 /**
  * This class is the shrink command and allows you to shrink images using
@@ -35,7 +35,7 @@ class Shrink extends SymfoCommand
     public function __construct($name, Client $client)
     {
         $this->client = $client;
-        $this->configurationFilePath = __DIR__ . '/../../../config/api.key.conf.yml';
+        $this->configurationFilePath = __DIR__ . '/../../../../config/api.key.conf.yml';
 
         parent::__construct($name);
     }

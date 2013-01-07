@@ -1,5 +1,5 @@
 <?php
-namespace Tiny;
+namespace Nlegoff\Tiny;
 
 use Guzzle\Common\Exception\ExceptionCollection;
 use Guzzle\Http\Client as  GuzzleHttpClient;

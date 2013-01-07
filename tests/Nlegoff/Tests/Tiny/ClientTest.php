@@ -1,6 +1,8 @@
 <?php
 
-use Tiny\Client;
+namespace Nlegoff\Tests\Tiny;
+
+use Nlegoff\Tiny\Client;
 use Guzzle\Plugin\Mock\MockPlugin;
 use Guzzle\Http\Message\Response;
 
