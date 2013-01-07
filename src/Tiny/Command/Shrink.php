@@ -16,7 +16,7 @@ use Tiny\Command\Code;
 use Tiny\FileIterator;
 
 /**
- * This class is the shrink command ans allows you to shrink images using
+ * This class is the shrink command and allows you to shrink images using
  * the command line tool
  */
 class Shrink extends SymfoCommand

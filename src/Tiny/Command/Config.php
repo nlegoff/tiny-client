@@ -8,15 +8,25 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 use Tiny\Command\Code;
 
+/**
+ * This class is the edit command and allows you to edit your client api key from
+ * the command line tool
+ */
 class Config extends SymfoCommand
 {
     protected $apiKey = 'YOUR_API_KEY';
     
+    /**
+     * @inheritdoc
+     */
     protected function configure()
     {
         $this->setDescription("Edit your tinypng api key");
     }
     
+    /**
+     * @inheritdoc
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $sampleConfFile = __DIR__ . '/../../../config/api.key.conf.sample.yml';
@@ -57,6 +67,11 @@ class Config extends SymfoCommand
         return Code::EXIT_SUCCESS;
     }
     
+    /**
+     * Gets the api key
+     * 
+     * @return  STRING
+     */
     public function getApiKey() 
     {
         return $this->apiKey;
