@@ -37,7 +37,7 @@ class Shrink extends SymfoCommand
             ->addArgument(
                 'file',
                 InputArgument::REQUIRED,
-                'Who do you want to shrink?'
+                'What do you want to shrink?'
             )
             ->addOption(
                 'output-dir',
@@ -87,23 +87,29 @@ class Shrink extends SymfoCommand
         
         $that = $this;
 
-        $shrinkBag = new FileIterator(
-            $input->getArgument('file'),
-            function ($file) use ($that, $input) {
-                if ($that->getShrinkPrefix() === substr($file->getBaseName(), 0, strlen($that->getShrinkPrefix()))) {
-                    
-                    return false;
-                }
-                
-                if (!$input->getOption('override')) {
-                    
-                    return !file_exists($that->getOutputImagePathName($file));
-                }
-                
-                return true;
-            },
-            !$input->getOption('no-recursive')
-        );
+        try {
+            $shrinkBag = new FileIterator(
+                $input->getArgument('file'),
+                function ($file) use ($that, $input) {
+                    if ($that->getShrinkPrefix() === substr($file->getBaseName(), 0, strlen($that->getShrinkPrefix()))) {
+
+                        return false;
+                    }
+
+                    if (!$input->getOption('override')) {
+
+                        return !file_exists($that->getOutputImagePathName($file));
+                    }
+
+                    return true;
+                },
+                !$input->getOption('no-recursive')
+            );
+        } catch (\InvalidArgumentException $e) {
+            $output->writeln("<error>Invalid input file</error>");
+
+            return Code::EXIT_FAILURE;
+        }
         
         if (0 === $countImage = count($shrinkBag)) {
             $output->writeln("<comment>No image are eligible for being shrunk</comment>");
