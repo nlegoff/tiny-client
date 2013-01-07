@@ -30,7 +30,7 @@ Usage:
  bin/tiny client:shrink [--output-dir="..."] [--override] [--no-recursive] file
 
 Arguments:
- file            Who do you want to shrink? (can be a single file or a directory)
+ file            What do you want to shrink? (can be a single file or a directory)
 
 Options:
  --output-dir    Where do you want the shrinked images to go ?
