@@ -15,6 +15,9 @@ use Tiny\Client;
 use Tiny\Command\Code;
 use Tiny\FileIterator;
 
+/**
+ * This class is the shrink command
+ */
 class Shrink extends SymfoCommand
 {
     protected $shrinkPrefix = 'shrinked.';
@@ -22,6 +25,12 @@ class Shrink extends SymfoCommand
     protected $client;
     protected $configurationFilePath;
     
+    /**
+     * Constructor
+     * 
+     * @param   string          $name       The command name
+     * @param   \Tiny\Client    $client     A Client instance
+     */
     public function __construct($name, Client $client) 
     {
         $this->client = $client;
@@ -30,6 +39,9 @@ class Shrink extends SymfoCommand
         parent::__construct($name);
     }
     
+    /**
+     * @inheritdoc
+     */
     protected function configure()
     {
         $this
@@ -59,6 +71,9 @@ class Shrink extends SymfoCommand
         return $this;
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
@@ -220,11 +235,23 @@ class Shrink extends SymfoCommand
         return Code::EXIT_FAILURE;
     }
     
+    /**
+     * Gets the prefix of the shrinked images
+     * 
+     * @return  string
+     */
     public function getShrinkPrefix()
     {
         return $this->shrinkPrefix;
     }
     
+    /**
+     * Gets the output pathname of a processed image
+     * 
+     * @param   \SplFileInfo    $file       A instance of \SplFileInfo
+     * @param   string|null     $basename   A custome basename
+     * @return  string
+     */
     public function getOutputImagePathName(\SplFileInfo $file, $basename = null)
     {
         return sprintf(
@@ -235,6 +262,12 @@ class Shrink extends SymfoCommand
         );
     }
     
+    /**
+     * Sets the path to the configuration file
+     * 
+     * @param  string    $filePath  A file path
+     * @return Shrink
+     */
     public function setConfigurationFilePath($filePath)
     {
         $this->configurationFilePath = $filePath;
@@ -242,6 +275,14 @@ class Shrink extends SymfoCommand
         return $this;
     }
     
+    /**
+     * Gets the api key from the configuration file
+     * 
+     * @return  string
+     * @throws  \Exception  In case file does not exists
+     * @throws  \Exception  In case file can not be parsed
+     * @throws  \Exception  In case api key could not be found
+     */
     private function getApiKey()
     {
         if (!file_exists($this->configurationFilePath)) {
