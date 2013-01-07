@@ -10,6 +10,12 @@ use Tiny\Client;
 
 class ShrinkTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @covers Tiny\Command\Shrink::execute
+     * @covers Tiny\Command\Shrink::__construct
+     * @covers Tiny\Command\Shrink::configure
+     * @covers Tiny\Command\Shrink::getApiKey
+     */
     public function testExecute()
     {
         $application = new Application();
@@ -40,6 +46,12 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/Image has been successfully shrinked/', $commandTester->getDisplay());
     }
     
+    /**
+     * @covers Tiny\Command\Shrink::execute
+     * @covers Tiny\Command\Shrink::__construct
+     * @covers Tiny\Command\Shrink::configure
+     * @covers Tiny\Command\Shrink::getApiKey
+     */
     public function testExecuteOverride()
     {
         $application = new Application();
@@ -71,6 +83,12 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/Image has been successfully shrinked/', $commandTester->getDisplay());
     }
     
+    /**
+     * @covers Tiny\Command\Shrink::execute
+     * @covers Tiny\Command\Shrink::__construct
+     * @covers Tiny\Command\Shrink::configure
+     * @covers Tiny\Command\Shrink::getApiKey
+     */
     public function testExecuteRepatriationFailure()
     {
         $application = new Application();
@@ -95,6 +113,12 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/could not be rapatriated on the local machine/', $commandTester->getDisplay());
     }
     
+    /**
+     * @covers Tiny\Command\Shrink::execute
+     * @covers Tiny\Command\Shrink::__construct
+     * @covers Tiny\Command\Shrink::configure
+     * @covers Tiny\Command\Shrink::getApiKey
+     */
     public function testExecuteErrorApi()
     {
         $application = new Application();
@@ -119,6 +143,12 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/Tiny PNG could not shrink the current image/', $commandTester->getDisplay());
     }
     
+    /**
+     * @covers Tiny\Command\Shrink::execute
+     * @covers Tiny\Command\Shrink::__construct
+     * @covers Tiny\Command\Shrink::configure
+     * @covers Tiny\Command\Shrink::getApiKey
+     */
     public function testExecuteNoEligibleImages()
     {
         $application = new Application();
@@ -143,6 +173,12 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/No image are eligible for being shrunk/', $commandTester->getDisplay());
     }
     
+    /**
+     * @covers Tiny\Command\Shrink::execute
+     * @covers Tiny\Command\Shrink::__construct
+     * @covers Tiny\Command\Shrink::configure
+     * @covers Tiny\Command\Shrink::getApiKey
+     */
     public function testExecuteCurlException()
     {
         $application = new Application();
@@ -152,7 +188,7 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
             MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.image.back')
         );
         
-        $client =  $this->getMockedClient($responses);
+        $client = $this->getMockedClient($responses);
         
         $client->getEventDispatcher()->addListener('request.before_send', function() {
             throw new CurlException('Connection timed out');
@@ -174,6 +210,12 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/Operation aborted/', $commandTester->getDisplay());
     }
     
+    /**
+     * @covers Tiny\Command\Shrink::execute
+     * @covers Tiny\Command\Shrink::__construct
+     * @covers Tiny\Command\Shrink::configure
+     * @covers Tiny\Command\Shrink::getApiKey
+     */
     public function testExecuteBadConfiguration()
     {
         $application = new Application();
@@ -183,7 +225,7 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
             MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.image.back')
         );
         
-        $client =  $this->getMockedClient($responses);
+        $client = $this->getMockedClient($responses);
 
         $application->add(new Shrink('client:shrink', $client));
         $application->add(new Config('config:edit-key'));
@@ -211,6 +253,12 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/Image has been successfully shrinked/', $commandTester->getDisplay());
     }
     
+    /**
+     * @covers Tiny\Command\Shrink::execute
+     * @covers Tiny\Command\Shrink::__construct
+     * @covers Tiny\Command\Shrink::configure
+     * @covers Tiny\Command\Shrink::getApiKey
+     */
     public function testExecuteConfigurationNotParsable()
     {
         $application = new Application();
@@ -220,7 +268,7 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
             MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.image.back')
         );
         
-        $client =  $this->getMockedClient($responses);
+        $client = $this->getMockedClient($responses);
 
         $application->add(new Shrink('client:shrink', $client));
         $application->add(new Config('config:edit-key'));
@@ -247,6 +295,12 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/Image has been successfully shrinked/', $commandTester->getDisplay());
     }
     
+    /**
+     * @covers Tiny\Command\Shrink::execute
+     * @covers Tiny\Command\Shrink::__construct
+     * @covers Tiny\Command\Shrink::configure
+     * @covers Tiny\Command\Shrink::getApiKey
+     */
     public function testExecuteConfigurationNoExistent()
     {
         $application = new Application();
@@ -256,7 +310,7 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
             MockPlugin::getMockFile(__DIR__ . '/../../../resources/responses/response.image.back')
         );
         
-        $client =  $this->getMockedClient($responses);
+        $client = $this->getMockedClient($responses);
 
         $application->add(new Shrink('client:shrink', $client));
         $application->add(new Config('config:edit-key'));
@@ -281,6 +335,17 @@ class ShrinkTest extends \PHPUnit_Framework_TestCase
         
         $this->assertRegExp('/Your api key has been successfully saved/', $commandTester->getDisplay());
         $this->assertRegExp('/Image has been successfully shrinked/', $commandTester->getDisplay());
+    }
+    
+    /**
+     * @covers Tiny\Command\Shrink::getOutputImagePathName
+     */
+    public function testGetOutputImagePathName()
+    {
+        $file = new \SplFileInfo(__FILE__);
+        $command = new Shrink('client:shrink', new Client());
+        
+        $this->assertRegexp('/shrinked.titi.png/', $command->getOutputImagePathName($file, 'titi.png'));
     }
     
     protected function getMockedClient(array $responses)
