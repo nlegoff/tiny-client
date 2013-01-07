@@ -1,6 +1,8 @@
 <?php
 namespace Tiny;
 
+
+use Guzzle\Common\Exception\ExceptionCollection;
 use Guzzle\Http\Client as  GuzzleHttpClient;
 use Guzzle\Http\EntityBody;
 use Guzzle\Http\Message\Request;
@@ -26,7 +28,8 @@ class Client extends GuzzleHttpClient
      * @param   array|\Traversable  $images An array or a \Traversable object of \SplFileInfo objects
      * @return  array   An array of Guzzle\Http\Message\Response objects
      * 
-     * @throws  \InvalidArgumentException
+     * @throws  \InvalidArgumentException   In case the provided argument is neither an array or an iterator
+     * @throws  ExceptionCollection         In case at lest one request failed, this will not cause the entire pool of requests to fail
      */
     public function shrink($images)
     {
