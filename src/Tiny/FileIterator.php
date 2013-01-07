@@ -2,12 +2,24 @@
 
 namespace Tiny;
 
+/**
+ * This class catches all the png file into an iterator
+ */
 class FileIterator extends \FilterIterator implements \Countable 
 {
     private $bag;
     private $callback;
     private $recursive;
     
+    /**
+     * Constructor
+     * 
+     * @param   string      $path       A path to a file or a directory
+     * @param   \Closure    $callback   A callback to apply in the accept method
+     * @param   boolean     $recursive  Tells wether or not to recurse in the provided directories
+     * 
+     * @throws  \InvalidArgumentException In the case an invalid path is provided
+     */
     public function __construct($path, \Closure $callback = null, $recursive = true)
     {
         if (is_dir($path)) {
@@ -15,7 +27,7 @@ class FileIterator extends \FilterIterator implements \Countable
         } elseif (is_file($path)) {
             $iterator = new \ArrayIterator(array(new \SplFileInfo($path)));
         } else {
-            throw new \LogicException();
+            throw new \InvalidArgumentException();
         }
         
         parent::__construct($iterator);
@@ -24,11 +36,14 @@ class FileIterator extends \FilterIterator implements \Countable
         $this->recursive = $recursive;
         $this->callback = $callback;
         
-        foreach($this as $that) {
-            //trigger count on constructor
+        foreach ($this as $that) {
+            // Tricks to fill $this->bag property by iterating, and call count() after object instanciation
         }
     }
 
+    /**
+     * @inheritdoc
+     */
     public function accept()
     {
         $accept = false;
@@ -42,15 +57,16 @@ class FileIterator extends \FilterIterator implements \Countable
             }
         }
         
-        $filename = md5($file->getPathname());
-        
         if ($accept) {
-            $this->bag[$filename] = $file;
+            $this->bag[md5($file->getPathname())] = $file;
         }
         
         return $accept;
     }
     
+    /**
+     * @inheritdoc
+     */
     public function count()
     {
        return count($this->bag);
@@ -61,6 +77,12 @@ class FileIterator extends \FilterIterator implements \Countable
         return isset($this->bag[md5($filename)]) ? $this->bag[md5($filename)] : null;
     }
     
+    /**
+     * Checks whether or not the provided file is a png file
+     * 
+     * @param   \SplFileInfo    $image  A \SplFileInfo instance
+     * @return  boolean
+     */
     private function isPngFile(\SplFileInfo $image)
     {
         // define the array of first 8 png bytes
