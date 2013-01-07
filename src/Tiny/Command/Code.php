@@ -2,6 +2,9 @@
 
 namespace Tiny\Command;
 
+/**
+ * This class defines the exit command status code
+ */
 final class Code
 {
     const EXIT_SUCCESS = 0;
