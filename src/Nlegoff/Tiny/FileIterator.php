@@ -1,6 +1,6 @@
 <?php
 
-namespace Tiny;
+namespace Nlegoff\Tiny;
 
 /**
  * This class catches all the png file into an iterator

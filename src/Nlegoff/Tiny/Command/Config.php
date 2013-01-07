@@ -1,12 +1,12 @@
 <?php
 
-namespace Tiny\Command;
+namespace Nlegoff\Tiny\Command;
 
+use Nlegoff\Tiny\Command\Code;
 use Symfony\Component\Console\Command\Command as SymfoCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
-use Tiny\Command\Code;
 
 /**
  * This class is the edit command and allows you to edit your client api key from
@@ -29,8 +29,8 @@ class Config extends SymfoCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $sampleConfFile = __DIR__ . '/../../../config/api.key.conf.sample.yml';
-        $confFile = __DIR__ . '/../../../config/api.key.conf.yml';
+        $sampleConfFile = __DIR__ . '/../../../../config/api.key.conf.sample.yml';
+        $confFile = __DIR__ . '/../../../../config/api.key.conf.yml';
 
         $dialog = $this->getHelperSet()->get('dialog');
 

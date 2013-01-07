@@ -1,4 +1,4 @@
 <?php
 
 $loader = require __DIR__.'/../vendor/autoload.php';
-$loader->add('Tiny\Tests', __DIR__ );
+$loader->add('Nlegoff\\Tests\\Tiny', __DIR__ );

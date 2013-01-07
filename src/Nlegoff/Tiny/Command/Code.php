@@ -1,6 +1,6 @@
 <?php
 
-namespace Tiny\Command;
+namespace Nlegoff\Tiny\Command;
 
 /**
  * This class defines the exit command status code
